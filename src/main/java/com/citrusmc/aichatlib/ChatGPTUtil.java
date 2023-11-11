@@ -21,6 +21,7 @@ public class ChatGPTUtil {
     protected static final String API_URL = (String) CONFIG.get("Model.api");
     private static final String API_KEY = (String) CONFIG.get("Model.openai-key");
     private static final String PROMPT = (String) CONFIG.get("Model.system-prompt");
+    private static final String STOP = (String) CONFIG.get("Model.stop-sequences");
 
     @Deprecated // Obsolete method, use getChatGPTResponseAsync instead
     public static JsonObject getChatGPTResponse(String message) {
@@ -78,6 +79,7 @@ public class ChatGPTUtil {
                             "\"content\": \"" + message + "\"" +
                         "}], " +
                         "\"stream\": " + USE_STREAM +
+                        "\"stop\": " + STOP +
                         "}",
                 okhttp3.MediaType.get("application/json; charset=utf-8")
         );
@@ -129,6 +131,7 @@ public class ChatGPTUtil {
                 "\"top_p\": " + chatGroup.topP + ", " +
                 "\"frequency_penalty\": " + chatGroup.frequencyPenalty + ", " +
                 "\"presence_penalty\": " + chatGroup.presencePenalty +
+                "\"stop\": " + STOP +
                 "}";
 
         if ((boolean) CONFIG.get("Settings.debug"))
